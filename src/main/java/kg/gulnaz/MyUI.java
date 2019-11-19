@@ -4,44 +4,62 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.navigator.Navigator;
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 
-/**
- * This UI is the application entry point. A UI may either represent a browser window 
- * (or tab) or some part of an HTML page where a Vaadin application is embedded.
- * <p>
- * The UI is initialized using {@link #init(VaadinRequest)}. This method is intended to be 
- * overridden to add component to the user interface and initialize non-component functionality.
- */
 @Theme("mytheme")
 public class MyUI extends UI {
-
-    @Override
-    protected void init(VaadinRequest vaadinRequest) {
-        final VerticalLayout layout = new VerticalLayout();
-        
-        final TextField name = new TextField();
-        name.setCaption("Type your name here:");
-
-        Button button = new Button("Click Me");
-        button.addClickListener(e -> {
-            layout.addComponent(new Label("Thanks " + name.getValue() 
-                    + ", it works!"));
-        });
-        
-        layout.addComponents(name, button);
-        
-        setContent(layout);
-    }
-
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
+    }
+
+    public static Authentication AUTH;
+    public static Authorization AUTH_2;
+    Navigator navigator;
+    @Override
+    protected void init(VaadinRequest vaadinRequest) {
+
+        AUTH = new Authentication();
+        AUTH_2 = new Authorization();
+        navigator = new Navigator(this, this);
+
+        getNavigator().addView(LoginPage.NAME, LoginPage.class);
+        getNavigator().setErrorView(LoginPage.class);
+
+        Page.getCurrent().addUriFragmentChangedListener(new Page.UriFragmentChangedListener() {
+            @Override
+            public void uriFragmentChanged(Page.UriFragmentChangedEvent event) {
+                router(event.getUriFragment());
+            }
+        });
+
+
+
+//        navigator.addView(LoginPage.NAME, new LoginPage());
+//        navigator.addView(RegisterPage.NAME, new RegisterPage());
+//        navigator.addView(QuotesPage.NAME, new QuotesPage());
+
+
+
+    }
+
+    private void router(String route) {
+
+        if (getSession().getAttribute("user") != null) {
+            getNavigator().addView(MainView.NAME, MainView.class);
+            getNavigator().addView(StockPage.NAME, StockPage.class);
+
+            if (route.equals("!OtherSecure")) {
+                getNavigator().navigateTo(StockPage.NAME);
+            } else {
+                getNavigator().navigateTo(MainView.NAME);
+            }
+        } else {
+            getNavigator().navigateTo(LoginPage.NAME);
+        }
     }
 }
