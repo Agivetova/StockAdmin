@@ -13,6 +13,7 @@ import kg.gulnaz.login.Authentication;
 import kg.gulnaz.login.LoginPage;
 import kg.gulnaz.quotes.MainView;
 import kg.gulnaz.register.Authorization;
+import kg.gulnaz.register.RegisterPage;
 import kg.gulnaz.stock.StockPage;
 
 @Theme("mytheme")
@@ -32,31 +33,13 @@ public class MyUI extends UI {
         AUTH_2 = new Authorization();
         navigator = new Navigator(this, this);
 
-        getNavigator().addView(LoginPage.NAME, LoginPage.class);
-        getNavigator().setErrorView(LoginPage.class);
+        navigator.addView(LoginPage.NAME, LoginPage.class);
 
-        Page.getCurrent().addUriFragmentChangedListener(new Page.UriFragmentChangedListener() {
-            @Override
-            public void uriFragmentChanged(Page.UriFragmentChangedEvent event) {
-                router(event.getUriFragment());
-            }
-        });
+        navigator.addView(MainView.NAME, MainView.class);
 
-    }
+        navigator.navigateTo(LoginPage.NAME);
 
-    private void router(String route) {
 
-        if (getSession().getAttribute("user") != null) {
-            getNavigator().addView(MainView.NAME, MainView.class);
-            getNavigator().addView(StockPage.NAME, StockPage.class);
 
-            if (route.equals("!OtherSecure")) {
-                getNavigator().navigateTo(StockPage.NAME);
-            } else {
-                getNavigator().navigateTo(MainView.NAME);
-            }
-        } else {
-            getNavigator().navigateTo(LoginPage.NAME);
-        }
     }
 }

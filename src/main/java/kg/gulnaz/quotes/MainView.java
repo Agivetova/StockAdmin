@@ -26,6 +26,8 @@ public class MainView extends VerticalLayout implements View {
 
     public MainView() {
 
+
+
         lblHeader = new Label("");
         lblHeader.addStyleName("colored");
         lblHeader.addStyleName("h2");
@@ -80,6 +82,8 @@ public class MainView extends VerticalLayout implements View {
         addComponent(lowerSection);
 
         setSizeFull();
+
+        setMargin(false);
 
         setExpandRatio(lowerSection, 1);
 
