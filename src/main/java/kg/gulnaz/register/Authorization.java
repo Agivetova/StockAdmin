@@ -1,4 +1,4 @@
-package kg.gulnaz;
+package kg.gulnaz.register;
 
 public class Authorization {
     private String username;

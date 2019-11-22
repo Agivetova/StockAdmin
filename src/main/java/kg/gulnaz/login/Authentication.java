@@ -1,4 +1,4 @@
-package kg.gulnaz;
+package kg.gulnaz.login;
 
 public class Authentication {
 

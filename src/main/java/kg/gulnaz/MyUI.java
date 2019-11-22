@@ -9,6 +9,11 @@ import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
+import kg.gulnaz.login.Authentication;
+import kg.gulnaz.login.LoginPage;
+import kg.gulnaz.quotes.MainView;
+import kg.gulnaz.register.Authorization;
+import kg.gulnaz.stock.StockPage;
 
 @Theme("mytheme")
 public class MyUI extends UI {
@@ -36,14 +41,6 @@ public class MyUI extends UI {
                 router(event.getUriFragment());
             }
         });
-
-
-
-//        navigator.addView(LoginPage.NAME, new LoginPage());
-//        navigator.addView(RegisterPage.NAME, new RegisterPage());
-//        navigator.addView(QuotesPage.NAME, new QuotesPage());
-
-
 
     }
 

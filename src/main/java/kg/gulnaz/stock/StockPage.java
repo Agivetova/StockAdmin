@@ -1,4 +1,4 @@
-package kg.gulnaz;
+package kg.gulnaz.stock;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -27,7 +27,7 @@ public class StockPage extends VerticalLayout implements View {
 
         Grid<Stocks> stocksGrid = new Grid<>();
 
-        stocksGrid.setHeight("300px");
+        stocksGrid.setHeight("151px");
         Button addNewStock = new Button("Add");
         addNewStock.addClickListener(e -> {
             stocksGrid.asSingleSelect().clear();
@@ -36,7 +36,7 @@ public class StockPage extends VerticalLayout implements View {
 
         HorizontalLayout toolbar = new HorizontalLayout(addNewStock);
 
-        stocksGrid.setHeight(300, Unit.PIXELS);
+        stocksGrid.setHeight(151, Unit.PIXELS);
         stocksGrid.setItems(list);
         stocksGrid.addColumn(Stocks::getName).setCaption("Name");
         stocksGrid.addColumn(Stocks::getPrice).setCaption("Price");

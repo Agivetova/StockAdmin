@@ -1,4 +1,4 @@
-package kg.gulnaz;
+package kg.gulnaz.stock;
 
 import com.vaadin.data.Binder;
 import com.vaadin.ui.Button;
