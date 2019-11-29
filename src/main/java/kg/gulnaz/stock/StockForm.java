@@ -8,8 +8,8 @@ import com.vaadin.ui.themes.ValoTheme;
 
 public class StockForm extends FormLayout {
 
-    private TextField firstName = new TextField("Name");
-    private TextField lastName = new TextField("Price");
+    private TextField name = new TextField("Name");
+    private TextField price = new TextField("Price");
     private Button save = new Button("Save");
     private Button delete = new Button("Delete");
 
@@ -23,7 +23,7 @@ public class StockForm extends FormLayout {
 
         setSizeUndefined();
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
-        addComponents(firstName, lastName, buttons);
+        addComponents(name, price, buttons);
 
         save.setStyleName(ValoTheme.BUTTON_PRIMARY);
         save.setClickShortcut(ShortcutAction.KeyCode.ENTER);
@@ -40,7 +40,7 @@ public class StockForm extends FormLayout {
 
         delete.setVisible(stock.isPersisted());
         setVisible(true);
-        firstName.selectAll();
+        name.selectAll();
     }
 
     private void delete() {

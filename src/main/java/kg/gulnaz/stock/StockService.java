@@ -77,18 +77,13 @@ public class StockService {
 
     public void ensureTestData() {
         if (findAll().isEmpty()) {
-            final String[] names = new String[] { "Gabrielle Patel", "Brian Robinson", "Eduardo Haugen",
-                    "Koen Johansen", "Alejandro Macdonald", "Angel Karlsson", "Yahir Gustavsson", "Haiden Svensson",
-                    "Emily Stewart", "Corinne Davis", "Ryann Davis", "Yurem Jackson", "Kelly Gustavsson",
-                    "Eileen Walker", "Katelyn Martin", "Israel Carlsson", "Quinn Hansson", "Makena Smith",
-                    "Danielle Watson", "Leland Harris", "Gunner Karlsen", "Jamar Olsson", "Lara Martin",
-                    "Ann Andersson", "Remington Andersson", "Rene Carlsson", "Elvis Olsen", "Solomon Olsen",
-                    "Jaydan Jackson", "Bernard Nilsen" };
+            final String[] names = new String[] { "Amazon.com 1,818.51", "Coca-Cola 53.95", "Facebook 202.00",
+                    "Intel 58.51", "Microsoft 152.32", "Walmart 118.76", "Pfizer 38.63", "Procter&Gamble 121.76", "Verizon 60.10", "Booking 1,906.45", "AT&T 37.66", "Merck&Co 87.61", "Amgen 234.54" };
             for (String name : names) {
                 String[] split = name.split(" ");
                 Stock c = new Stock();
-                c.setFirstName(split[0]);
-                c.setLastName(split[1]);
+                c.setName(split[0]);
+                c.setPrice(split[1]);
                 save(c);
             }
         }

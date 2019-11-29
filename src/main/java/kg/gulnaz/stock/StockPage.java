@@ -14,6 +14,7 @@ public class StockPage extends VerticalLayout implements View {
     private StockService service = StockService.getInstance();
     private Grid<Stock> grid = new Grid<>(Stock.class);
     private TextField filterText = new TextField();
+
     private StockForm form = new StockForm(this);
 
     public StockPage() {
@@ -28,7 +29,7 @@ public class StockPage extends VerticalLayout implements View {
 
         HorizontalLayout toolbar = new HorizontalLayout(addCustomerBtn);
 
-        grid.setColumns("firstName", "lastName", "email");
+        grid.setColumns("name", "price");
 
         HorizontalLayout main = new HorizontalLayout(grid, form);
         main.setSizeFull();
