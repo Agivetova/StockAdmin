@@ -2,12 +2,8 @@ package kg.gulnaz.stock;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Grid;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class StockPage extends VerticalLayout implements View {
@@ -15,53 +11,50 @@ public class StockPage extends VerticalLayout implements View {
     private static final long serialVersionUID = 1L;
     public static final String NAME = "OtherSecure";
 
-    private StockForm stockForm = new StockForm(this);
+    private StockService service = StockService.getInstance();
+    private Grid<Stock> grid = new Grid<>(Stock.class);
+    private TextField filterText = new TextField();
+    private StockForm form = new StockForm(this);
 
     public StockPage() {
 
-        List<Stocks> list = Arrays.asList(
-                new Stocks( "Nicolaus Copernicus", 1543),
-                new Stocks( "Galileo Galilei", 1564),
-                new Stocks( "Johannes Kepler", 1571)
-        );
+        final VerticalLayout layout = new VerticalLayout();
 
-        Grid<Stocks> stocksGrid = new Grid<>();
-
-        stocksGrid.setHeight("151px");
-        Button addNewStock = new Button("Add");
-        addNewStock.addClickListener(e -> {
-            stocksGrid.asSingleSelect().clear();
-            stockForm.setStock(new Stocks());
+        Button addCustomerBtn = new Button("Add new stock");
+        addCustomerBtn.addClickListener(e -> {
+            grid.asSingleSelect().clear();
+            form.setStock(new Stock());
         });
 
-        HorizontalLayout toolbar = new HorizontalLayout(addNewStock);
+        HorizontalLayout toolbar = new HorizontalLayout(addCustomerBtn);
 
-        stocksGrid.setHeight(151, Unit.PIXELS);
-        stocksGrid.setItems(list);
-        stocksGrid.addColumn(Stocks::getName).setCaption("Name");
-        stocksGrid.addColumn(Stocks::getPrice).setCaption("Price");
+        grid.setColumns("firstName", "lastName", "email");
 
-        VerticalLayout main = new VerticalLayout(stocksGrid, stockForm);
-
+        HorizontalLayout main = new HorizontalLayout(grid, form);
         main.setSizeFull();
-        main.setExpandRatio(stocksGrid, 1);
+        grid.setSizeFull();
+        main.setExpandRatio(grid, 1);
 
-        addComponents(toolbar, main);
+        layout.addComponents(main, toolbar);
 
         updateList();
-        stockForm.setVisible(false);
 
-        stocksGrid.asSingleSelect().addValueChangeListener(event -> {
+        addComponent(layout);
+
+        form.setVisible(false);
+
+        grid.asSingleSelect().addValueChangeListener(event -> {
             if (event.getValue() == null) {
-                stockForm.setVisible(false);
+                form.setVisible(false);
             } else {
-                stockForm.setStock(event.getValue());
+                form.setStock(event.getValue());
             }
         });
-
     }
 
     public void updateList() {
+        List<Stock> stocks = service.findAll(filterText.getValue());
+        grid.setItems(stocks);
     }
 
     @Override
