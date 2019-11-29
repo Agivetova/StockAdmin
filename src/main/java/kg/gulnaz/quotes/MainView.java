@@ -6,6 +6,7 @@ import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import kg.gulnaz.stock.StockPage;
 
 public class MainView extends VerticalLayout implements View {
@@ -13,18 +14,19 @@ public class MainView extends VerticalLayout implements View {
     private static final long serialVersionUID = 1L;
     public static final String NAME = "Secure";
 
-    HorizontalLayout upperSection = new HorizontalLayout();
-    HorizontalLayout innerUpperSection = new HorizontalLayout();
+
     HorizontalSplitPanel lowerSection = new HorizontalSplitPanel();
-    VerticalLayout menuLayout = new VerticalLayout();
-    HorizontalLayout menuTitle = new HorizontalLayout();
+    CssLayout menuLayout = new CssLayout();
     VerticalLayout contentLayout = new VerticalLayout();
 
     Label lblHeader;
-    Label lblMenu;
+    Label title;
     Button btnLogout;
 
     public MainView() {
+
+        title = new Label("Menu");
+        title.addStyleName(ValoTheme.MENU_TITLE);
 
         lblHeader = new Label("");
         lblHeader.addStyleName("colored");
@@ -32,8 +34,7 @@ public class MainView extends VerticalLayout implements View {
         lblHeader.setSizeUndefined();
 
         btnLogout = new Button("Sign Out");
-        btnLogout.addStyleName("small");
-        btnLogout.addStyleName("friendly");
+        btnLogout.addStyleNames(ValoTheme.BUTTON_BORDERLESS, ValoTheme.MENU_ITEM);
         btnLogout.setSizeUndefined();
         btnLogout.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -47,78 +48,40 @@ public class MainView extends VerticalLayout implements View {
             }
         });
 
-        lblMenu = new Label("Menu");
-        lblMenu.addStyleName("colored");
-        lblMenu.addStyleName("h2");
-
-        innerUpperSection.addComponent(lblHeader);
-        innerUpperSection.addComponent(btnLogout);
-        innerUpperSection.setExpandRatio(btnLogout, 1);
-        innerUpperSection.setSpacing(true);
-        innerUpperSection.setComponentAlignment(btnLogout, Alignment.MIDDLE_RIGHT);
-
-        upperSection.setSizeFull();
-        upperSection.addComponent(innerUpperSection);
-
-        upperSection.setMargin(new MarginInfo(false, true, false, false));
-        upperSection.setComponentAlignment(innerUpperSection, Alignment.TOP_RIGHT);
-        upperSection.addStyleName("borderBottom");
-        upperSection.setHeight(4, UNITS_EM);
-
-        menuTitle.addComponent(lblMenu);
-        menuLayout.addComponent(menuTitle);
-        menuLayout.setWidth("100%");
-        menuLayout.setComponentAlignment(menuTitle, Alignment.MIDDLE_CENTER);
+        menuLayout.addComponent(title);
+        menuLayout.addComponent(btnLogout);
 
         lowerSection.addComponent(menuLayout);
         lowerSection.addComponent(contentLayout);
         contentLayout.setSizeFull();
         lowerSection.setSizeFull();
-        lowerSection.setSplitPosition(15);
-
-        addComponent(upperSection);
+        lowerSection.setSplitPosition(10);
         addComponent(lowerSection);
 
         setSizeFull();
+
+        setMargin(false);
 
         setExpandRatio(lowerSection, 1);
 
     }
 
     public void setMenuTitle() {
-        menuTitle.addComponent(lblMenu);
-        menuLayout.addComponent(menuTitle);
+        menuLayout.addComponent(title);
         menuLayout.setWidth("100%");
-        menuLayout.setComponentAlignment(menuTitle, Alignment.MIDDLE_CENTER);
+    }
+
+    public void setSignOut() {
+        menuLayout.addComponent(btnLogout);
     }
 
     public void addWelcomeText() {
         Label lblTitle = new Label("Welcome " + VaadinSession.getCurrent().getAttribute("user").toString() + "!");
-        lblTitle.addStyleName("h1");
-        lblTitle.addStyleName("colored");
 
         lblHeader.setValue("" + VaadinSession.getCurrent().getAttribute("user").toString());
 
         contentLayout.addComponent(lblTitle);
         contentLayout.setMargin(new MarginInfo(false, false, false, true));
-    }
-
-    public void addDashboardOption(String caption) {
-
-        Button button = new Button(caption);
-        button.setWidth("100%");
-        button.setStyleName("borderless");
-        menuLayout.addComponent(button);
-
-        button.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                contentLayout.removeAllComponents();
-                addWelcomeText();
-            }
-        });
     }
 
     public Component getComponent(String componentName) {
@@ -131,9 +94,9 @@ public class MainView extends VerticalLayout implements View {
 
     public void addMenuOption(String caption, String componentName) {
         Button button = new Button(caption);
-        button.setWidth("100%");
-        button.setStyleName("borderless");
+        button.addStyleNames(ValoTheme.BUTTON_LINK, ValoTheme.MENU_ITEM);
         menuLayout.addComponent(button);
+        menuLayout.addStyleName(ValoTheme.MENU_ROOT);
         button.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -152,6 +115,7 @@ public class MainView extends VerticalLayout implements View {
         setMenuTitle();
         this.addMenuOption("Stock", "StockPage");
         this.addMenuOption("Quotes", "QuotesPage");
+        setSignOut();
         addWelcomeText();
     }
 }
