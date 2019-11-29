@@ -15,6 +15,7 @@ import kg.gulnaz.quotes.MainView;
 import kg.gulnaz.register.Authorization;
 import kg.gulnaz.stock.StockPage;
 
+
 @Theme("mytheme")
 public class MyUI extends UI {
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
