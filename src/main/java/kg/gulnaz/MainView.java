@@ -1,4 +1,4 @@
-package kg.gulnaz.quotes;
+package kg.gulnaz;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -7,6 +7,7 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import kg.gulnaz.quotes.QuotesPage;
 import kg.gulnaz.stock.StockPage;
 
 public class MainView extends VerticalLayout implements View {

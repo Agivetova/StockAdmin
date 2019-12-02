@@ -10,7 +10,6 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
 import kg.gulnaz.login.Authentication;
 import kg.gulnaz.login.LoginPage;
-import kg.gulnaz.quotes.MainView;
 import kg.gulnaz.register.Authorization;
 
 @Theme("mytheme")

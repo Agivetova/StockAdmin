@@ -5,10 +5,9 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.*;
-import kg.gulnaz.quotes.MainView;
+import kg.gulnaz.MainView;
 import kg.gulnaz.MyUI;
 import kg.gulnaz.register.RegisterPage;
-import kg.gulnaz.stock.StockPage;
 
 public class LoginPage extends VerticalLayout implements View {
     private static final long serialVersionUID = 1L;
