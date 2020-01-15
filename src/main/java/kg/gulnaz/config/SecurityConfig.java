@@ -15,9 +15,7 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizedClientRepository;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
@@ -41,20 +39,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
-                .anyRequest().authenticated().and()
-                .logout().permitAll().logoutSuccessUrl("/").and()
+                .anyRequest().authenticated()
+                .and()
                 .oauth2Client()
                 .clientRegistrationRepository(clientRegistrationRepository)
                 .authorizedClientRepository(authorizedClientRepository)
                 .authorizedClientService(authorizedClientService)
+                //.and().addFilter(oauth2requestFilter())
                 .and()
-        .oauth2Login().authorizationEndpoint().authorizationRequestResolver(oauth2requestResolver())
+                .oauth2Login().loginPage("/login").defaultSuccessUrl("/")
         ;
         http.sessionManagement().sessionAuthenticationStrategy(sessionAuthenticationStrategy);
-    }
-
-    private OAuth2AuthorizationRequestResolver oauth2requestResolver() {
-        return new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository, "http://localhost:8081/oauth/authorize");
     }
 
     @Override
@@ -125,8 +120,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .clientId(clientId)
                     .clientSecret(clientSecret)
                     .tokenUri(accessTokenUri)
-                    .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                    .redirectUriTemplate("/auth/code")
+                    .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                    .scope("read, write")
+                    .redirectUriTemplate("{baseUrl}/login/oauth2/code/{registrationId}")
                     .authorizationUri(authorizationUri)
                     .build();
         }
