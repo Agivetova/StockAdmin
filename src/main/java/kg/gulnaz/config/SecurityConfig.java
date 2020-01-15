@@ -15,7 +15,9 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizedClientRepository;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
@@ -47,9 +49,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizedClientService(authorizedClientService)
                 //.and().addFilter(oauth2requestFilter())
                 .and()
-                .oauth2Login().loginPage("/login").defaultSuccessUrl("/")
+                .oauth2Login()
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/")
+                    .authorizationEndpoint().authorizationRequestResolver(oauth2requestResolver())
         ;
         http.sessionManagement().sessionAuthenticationStrategy(sessionAuthenticationStrategy);
+    }
+
+    private OAuth2AuthorizationRequestResolver oauth2requestResolver() {
+        return new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository, "http://localhost:8081/oauth/authorize");
     }
 
     @Override

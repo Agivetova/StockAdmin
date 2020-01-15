@@ -66,16 +66,16 @@
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-themes</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.vaadin.addons</groupId>
-			<artifactId>dcharts-widget</artifactId>
-			<version>1.7.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-elemental</artifactId>
-			<version>LATEST</version>
-		</dependency>
+        <dependency>
+            <groupId>org.vaadin.addons</groupId>
+            <artifactId>dcharts-widget</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-elemental</artifactId>
+            <version>LATEST</version>
+        </dependency>
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-spring</artifactId>

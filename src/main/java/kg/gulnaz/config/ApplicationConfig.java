@@ -28,13 +28,14 @@ public class ApplicationConfig {
         SecurityContextHolder.setStrategyName(VaadinSessionSecurityContextHolderStrategy.class.getName());
     }
 
-    /*@WebServlet(urlPatterns = "/login", name = "LoginServlet", asyncSupported = true)
-    @VaadinServletConfiguration(productionMode = false, ui = LoginUI.class)
+    @WebServlet(urlPatterns = "/*", name = "LoginServlet", asyncSupported = true)
+    @VaadinServletConfiguration(productionMode = false, ui = SecuredUI.class)
     @Push
     public static class LoginServlet extends SpringServlet {
 
     }
 
+    /**
     @WebServlet(urlPatterns = "/app", name = "AppServlet", asyncSupported = true)
     @VaadinServletConfiguration(productionMode = false, ui = SecuredUI.class)
     @Push
