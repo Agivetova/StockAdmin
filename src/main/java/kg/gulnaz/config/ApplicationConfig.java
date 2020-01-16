@@ -32,7 +32,6 @@ public class ApplicationConfig {
     @VaadinServletConfiguration(productionMode = false, ui = SecuredUI.class)
     @Push
     public static class LoginServlet extends SpringServlet {
-
     }
 
     /**

@@ -40,7 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Client()
@@ -50,11 +49,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //.and().addFilter(oauth2requestFilter())
                 .and()
                 .oauth2Login()
-                    .loginPage("/login")
+                    .loginPage("/login").permitAll()
                     .defaultSuccessUrl("/")
-                    .authorizationEndpoint().authorizationRequestResolver(oauth2requestResolver())
-        ;
-        http.sessionManagement().sessionAuthenticationStrategy(sessionAuthenticationStrategy);
+                    .authorizationEndpoint().authorizationRequestResolver(oauth2requestResolver()).and()
+                    .and()
+                .sessionManagement().sessionAuthenticationStrategy(sessionAuthenticationStrategy);
     }
 
     private OAuth2AuthorizationRequestResolver oauth2requestResolver() {
