@@ -7,7 +7,9 @@ import com.vaadin.spring.internal.UIID;
 import com.vaadin.spring.server.SpringUIProvider;
 import com.vaadin.ui.UI;
 import com.vaadin.util.CurrentInstance;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CustomSpringUIProvider extends SpringUIProvider {
     public CustomSpringUIProvider(VaadinSession vaadinSession) {
         super(vaadinSession);
