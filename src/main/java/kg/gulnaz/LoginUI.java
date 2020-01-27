@@ -11,9 +11,7 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("mytheme")
 public class LoginUI extends UI {
     @Override
-    public void init(VaadinRequest vaadinRequest) {
-        final VerticalLayout layout = new VerticalLayout();
-        layout.addComponent(new Label("login form"));
-        setContent(layout);
+    protected void init(VaadinRequest request) {
+        setContent(new VerticalLayout(new Label("Login form")));
     }
 }

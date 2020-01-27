@@ -28,12 +28,12 @@ public class RegisterPage extends VerticalLayout implements View {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                /*if (SecuredUI.AUTH_2.authorization(username.getValue(), password.getValue())){
-                    VaadinSession.getCurrent().setAttribute("user", username.getValue());
-                    getUI().getNavigator().addView(MainView.NAME, MainView.class);
-                    getUI().getNavigator().addView(StockPage.NAME, StockPage.class);
-                    Page.getCurrent().setUriFragment("!" + MainView.NAME);
-                }*/
+//                if (MyUI.AUTH_2.authorization(username.getValue(), password.getValue())){
+//                    VaadinSession.getCurrent().setAttribute("user", username.getValue());
+//                    getUI().getNavigator().addView(MainView.NAME, MainView.class);
+//                    getUI().getNavigator().addView(StockPage.NAME, StockPage.class);
+//                    Page.getCurrent().setUriFragment("!" + MainView.NAME);
+//                }
             }
         });
 

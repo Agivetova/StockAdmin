@@ -30,12 +30,12 @@ public class LoginPage extends VerticalLayout implements View {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                /*if (SecuredUI.AUTH.authenticate(username.getValue(), password.getValue())) {
-                    VaadinSession.getCurrent().setAttribute("user", username.getValue());
-                    getUI().getNavigator().navigateTo(MainView.NAME);
-                } else {
-                    Notification.show("Invalid credentials", Notification.Type.ERROR_MESSAGE);
-                }*/
+//                if (MyUI.AUTH.authenticate(username.getValue(), password.getValue())) {
+//                    VaadinSession.getCurrent().setAttribute("user", username.getValue());
+//                    getUI().getNavigator().navigateTo(MainView.NAME);
+//                } else {
+//                    Notification.show("Invalid credentials", Notification.Type.ERROR_MESSAGE);
+//                }
             }
         });
 
