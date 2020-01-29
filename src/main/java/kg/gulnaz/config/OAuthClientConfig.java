@@ -50,6 +50,26 @@ public class OAuthClientConfig {
         return new SessionFixationProtectionStrategy();
     }
 
+//    @Bean
+//    public OAuth2AuthorizedClientManager authorizedClientManager() {
+//        OAuth2AuthorizedClientProvider authorizedClientProvider =
+//                OAuth2AuthorizedClientProviderBuilder.builder()
+//                        .password()
+//                        .refreshToken()
+//                        .build();
+//
+//        DefaultOAuth2AuthorizedClientManager authorizedClientManager =
+//                new DefaultOAuth2AuthorizedClientManager(
+//                        clientRegistrationRepository(), authorizedClientRepository());
+//        authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
+//
+//        // Assuming the `username` and `password` are supplied as `HttpServletRequest` parameters,
+//        // map the `HttpServletRequest` parameters to `OAuth2AuthorizationContext.getAttributes()`
+//        // authorizedClientManager.setContextAttributesMapper(contextAttributesMapper());
+//
+//        return authorizedClientManager;
+//    }
+
     @Bean
     public ClientRegistration clientRegistration() {
         return ClientRegistration.withRegistrationId("admin")

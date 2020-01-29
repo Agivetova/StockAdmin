@@ -106,7 +106,7 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.28</version>
 		</dependency>
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>
