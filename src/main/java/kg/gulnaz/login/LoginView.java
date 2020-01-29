@@ -1,13 +1,16 @@
 package kg.gulnaz.login;
 
+import com.vaadin.data.Binder;
+import com.vaadin.data.ValidationException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.Page;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import kg.gulnaz.LoginUI;
-import kg.gulnaz.register.RegisterPage;
+import kg.gulnaz.model.UserCredential;
+import kg.gulnaz.service.AuthenticationService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @UIScope
 @SpringView(ui = LoginUI.class, name = LoginView.NAME)
@@ -15,8 +18,13 @@ public class LoginView extends VerticalLayout implements View {
     private static final long serialVersionUID = 1L;
     public static final String NAME = "";
 
+    private Binder<UserCredential> loginDataBinder;
+    @Autowired
+    private AuthenticationService authService;
 
     public LoginView() {
+        loginDataBinder = new Binder<>();
+        loginDataBinder.readBean(new UserCredential());
     }
 
     @Override
@@ -36,14 +44,25 @@ public class LoginView extends VerticalLayout implements View {
 
     private FormLayout buildForm() {
         FormLayout form = new FormLayout();
-        TextField username = new TextField("Username");
-        form.addComponent(username);
-        PasswordField password = new PasswordField("Password");
-        form.addComponent(password);
+
+        TextField usernameField = new TextField("Username");
+        loginDataBinder
+                .forField(usernameField)
+                .asRequired("Please put your username")
+                .bind(UserCredential::getUsername, UserCredential::setUsername);
+        form.addComponent(usernameField);
+        PasswordField passwordField = new PasswordField("Password");
+        loginDataBinder.forField(passwordField)
+                .asRequired("Please provide password")
+                .bind(
+                    credential -> "",
+                    (credential, value) -> credential.setPassword(value.toCharArray())
+                );
+        form.addComponent(passwordField);
 
 
         Button loginBtn = new Button("Login");
-        loginBtn.addClickListener(this::onSend);
+        loginBtn.addClickListener(this::onLoginClick);
         Button registerLnk = new Button("Register");
         registerLnk.addClickListener(this::onRegisterLinkClick);
 
@@ -54,6 +73,7 @@ public class LoginView extends VerticalLayout implements View {
         form.addComponent(buttonsToolbar);
         form.setSizeUndefined();
         form.setMargin(true);
+
         return form;
     }
 
@@ -61,7 +81,14 @@ public class LoginView extends VerticalLayout implements View {
         System.out.println("Registration clicked");
     }
 
-    private void onSend(Button.ClickEvent event) {
+    private void onLoginClick(Button.ClickEvent event) {
+        UserCredential authorizationDetails = new UserCredential();
+        try {
+            loginDataBinder.writeBean(authorizationDetails);
+            authService.authenticate(authorizationDetails);
+        } catch (ValidationException e) {
+            e.printStackTrace();
+        }
         //                if (MyUI.AUTH.authenticate(username.getValue(), password.getValue())) {
 //                    VaadinSession.getCurrent().setAttribute("user", username.getValue());
 //                    getUI().getNavigator().navigateTo(MainView.NAME);
