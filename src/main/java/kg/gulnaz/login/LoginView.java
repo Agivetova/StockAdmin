@@ -4,17 +4,19 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.spring.annotation.SpringView;
+import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import kg.gulnaz.LoginUI;
 import kg.gulnaz.register.RegisterPage;
 
-@SpringView(ui = LoginUI.class)
-public class LoginPage extends VerticalLayout implements View {
+@UIScope
+@SpringView(ui = LoginUI.class, name = LoginView.NAME)
+public class LoginView extends VerticalLayout implements View {
     private static final long serialVersionUID = 1L;
-    public static final String NAME = "login";
+    public static final String NAME = "";
 
 
-    public LoginPage() {
+    public LoginView() {
     }
 
     @Override
