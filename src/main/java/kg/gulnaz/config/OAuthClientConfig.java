@@ -50,38 +50,17 @@ public class OAuthClientConfig {
         return new SessionFixationProtectionStrategy();
     }
 
-//    @Bean
-//    public OAuth2AuthorizedClientManager authorizedClientManager() {
-//        OAuth2AuthorizedClientProvider authorizedClientProvider =
-//                OAuth2AuthorizedClientProviderBuilder.builder()
-//                        .password()
-//                        .refreshToken()
-//                        .build();
-//
-//        DefaultOAuth2AuthorizedClientManager authorizedClientManager =
-//                new DefaultOAuth2AuthorizedClientManager(
-//                        clientRegistrationRepository(), authorizedClientRepository());
-//        authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
-//
-//        // Assuming the `username` and `password` are supplied as `HttpServletRequest` parameters,
-//        // map the `HttpServletRequest` parameters to `OAuth2AuthorizationContext.getAttributes()`
-//        // authorizedClientManager.setContextAttributesMapper(contextAttributesMapper());
-//
-//        return authorizedClientManager;
-//    }
-
     @Bean
     public ClientRegistration clientRegistration() {
         return ClientRegistration.withRegistrationId("admin")
                 .clientName("Stock Admin")
                 .clientId(clientId)
                 .clientSecret(clientSecret)
-                .clientAuthenticationMethod(ClientAuthenticationMethod.POST)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.BASIC)
                 .tokenUri(accessTokenUri)
                 .authorizationUri(authorizationUri)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .redirectUriTemplate("{baseUrl}/login/oauth2/code/{registrationId}")
-                .scope("read, write")
+                .scope("read", "write")
                 .build();
     }
 }
