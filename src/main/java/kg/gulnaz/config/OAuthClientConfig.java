@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.*;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -51,15 +51,34 @@ public class OAuthClientConfig {
     }
 
     @Bean
+    public OAuth2AuthorizedClientManager authorizedClientManager() {
+        OAuth2AuthorizedClientProvider authorizedClientProvider =
+                OAuth2AuthorizedClientProviderBuilder.builder()
+                        .password()
+                        .refreshToken()
+                        .build();
+
+        DefaultOAuth2AuthorizedClientManager authorizedClientManager =
+                new DefaultOAuth2AuthorizedClientManager(
+                        clientRegistrationRepository(), authorizedClientRepository());
+        authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
+
+        // Assuming the `username` and `password` are supplied as `HttpServletRequest` parameters,
+        // map the `HttpServletRequest` parameters to `OAuth2AuthorizationContext.getAttributes()`
+        // authorizedClientManager.setContextAttributesMapper(contextAttributesMapper());
+
+        return authorizedClientManager;
+    }
+
+    @Bean
     public ClientRegistration clientRegistration() {
         return ClientRegistration.withRegistrationId("admin")
                 .clientName("Stock Admin")
                 .clientId(clientId)
                 .clientSecret(clientSecret)
                 .clientAuthenticationMethod(ClientAuthenticationMethod.BASIC)
+                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
                 .tokenUri(accessTokenUri)
-                .authorizationUri(authorizationUri)
-                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                 .scope("read", "write")
                 .build();
     }
