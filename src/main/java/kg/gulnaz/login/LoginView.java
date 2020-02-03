@@ -4,6 +4,8 @@ import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.VaadinServletRequest;
+import com.vaadin.server.VaadinServletResponse;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
@@ -83,18 +85,13 @@ public class LoginView extends VerticalLayout implements View {
 
     private void onLoginClick(Button.ClickEvent event) {
         UserCredential authorizationDetails = new UserCredential();
+        VaadinServletRequest request = VaadinServletRequest.getCurrent();
+        VaadinServletResponse response = VaadinServletResponse.getCurrent();
         try {
             loginDataBinder.writeBean(authorizationDetails);
-            authService.authenticate(authorizationDetails);
+            authService.authenticate(authorizationDetails, request, response);
         } catch (ValidationException e) {
             e.printStackTrace();
         }
-        //                if (MyUI.AUTH.authenticate(username.getValue(), password.getValue())) {
-//                    VaadinSession.getCurrent().setAttribute("user", username.getValue());
-//                    getUI().getNavigator().navigateTo(MainView.NAME);
-//                } else {
-//                    Notification.show("Invalid credentials", Notification.Type.ERROR_MESSAGE);
-//                }
-
     }
 }
