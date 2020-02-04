@@ -30,6 +30,7 @@ public class OAuth2AuthenticationService implements AuthenticationService {
     public void authenticate(UserCredential authorizationDetails, HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         request.setAttribute(OAuth2ParameterNames.USERNAME, authorizationDetails.getUsername());
         request.setAttribute(OAuth2ParameterNames.PASSWORD, new String(authorizationDetails.getPassword()));
+
         OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId("admin")
                 .principal(oauth2ClientDetails)
                 .attributes(attrs -> {

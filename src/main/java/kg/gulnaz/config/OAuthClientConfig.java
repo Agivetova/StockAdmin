@@ -26,10 +26,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Configuration
 @PropertySource("classpath:/application.properties")
 public class OAuthClientConfig {
+    private static final Logger logger = Logger.getLogger("oauth-client-config");
+
     @Value("${security.oauth2.client.clientId}")
     private String clientId;
     @Value("${security.oauth2.client.clientSecret}")
@@ -91,6 +95,10 @@ public class OAuthClientConfig {
         return authorizeRequest -> {
             Map<String, Object> contextAttributes = Collections.emptyMap();
             HttpServletRequest servletRequest = authorizeRequest.getAttribute(HttpServletRequest.class.getName());
+            if (servletRequest == null) {
+                logger.log(Level.SEVERE, "Servlet request is null");
+                return new HashMap<>();
+            }
             String username = (String) servletRequest.getAttribute(OAuth2ParameterNames.USERNAME);
             String password = (String) servletRequest.getAttribute(OAuth2ParameterNames.PASSWORD);
             if (StringUtils.hasText(username) && StringUtils.hasText(password)) {

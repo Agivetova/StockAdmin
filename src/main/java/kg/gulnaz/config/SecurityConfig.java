@@ -1,6 +1,7 @@
 package kg.gulnaz.config;
 
 import com.vaadin.spring.annotation.EnableVaadin;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     static {
         // Use a custom SecurityContextHolderStrategy
         SecurityContextHolder.setStrategyName(VaadinSessionSecurityContextHolderStrategy.class.getName());
+        SLF4JBridgeHandler.install();
     }
 
     @Autowired
