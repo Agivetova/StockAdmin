@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class OAuth2AuthenticationService implements AuthenticationService {
     private Authentication oauth2ClientDetails;
 
     @Override
-    public void authenticate(UserCredential authorizationDetails, HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+    public void authenticate(UserCredential authorizationDetails, HttpServletRequest request, HttpServletResponse response) throws OAuth2AuthenticationException {
         request.setAttribute(OAuth2ParameterNames.USERNAME, authorizationDetails.getUsername());
         request.setAttribute(OAuth2ParameterNames.PASSWORD, new String(authorizationDetails.getPassword()));
 
@@ -46,6 +47,5 @@ public class OAuth2AuthenticationService implements AuthenticationService {
             return;
         }
         OAuth2AccessToken accessToken = authorizedClient.getAccessToken();
-        System.out.println(accessToken.getTokenValue());
     }
 }
