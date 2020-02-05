@@ -13,14 +13,13 @@ import kg.gulnaz.LoginUI;
 import kg.gulnaz.model.UserCredential;
 import kg.gulnaz.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2AuthorizationException;
 
 @UIScope
 @SpringView(ui = LoginUI.class, name = LoginView.NAME)
 public class LoginView extends VerticalLayout implements View {
     private static final long serialVersionUID = 1L;
-    public static final String NAME = "";
+    public static final String NAME = "login";
 
     private Binder<UserCredential> loginDataBinder;
     @Autowired
@@ -92,6 +91,7 @@ public class LoginView extends VerticalLayout implements View {
         try {
             loginDataBinder.writeBean(authorizationDetails);
             authService.authenticate(authorizationDetails, request, response);
+            getUI().getPage().setLocation("/");
         } catch (ValidationException e) {
             e.printStackTrace();
         } catch (OAuth2AuthorizationException ex) {

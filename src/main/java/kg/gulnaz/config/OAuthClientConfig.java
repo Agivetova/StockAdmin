@@ -66,12 +66,6 @@ public class OAuthClientConfig {
     }
 
     @Bean
-    @Qualifier("oauth2ClientDetails")
-    public Authentication clientAuthentication() {
-        return new UsernamePasswordAuthenticationToken(clientId, clientSecret);
-    }
-
-    @Bean
     public OAuth2AuthorizedClientManager authorizedClientManager() {
         OAuth2AuthorizedClientProvider authorizedClientProvider =
                 OAuth2AuthorizedClientProviderBuilder.builder()
