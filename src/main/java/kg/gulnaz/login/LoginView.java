@@ -13,6 +13,8 @@ import kg.gulnaz.LoginUI;
 import kg.gulnaz.model.UserCredential;
 import kg.gulnaz.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2AuthorizationException;
 
 @UIScope
 @SpringView(ui = LoginUI.class, name = LoginView.NAME)
@@ -92,6 +94,8 @@ public class LoginView extends VerticalLayout implements View {
             authService.authenticate(authorizationDetails, request, response);
         } catch (ValidationException e) {
             e.printStackTrace();
+        } catch (OAuth2AuthorizationException ex) {
+            Notification.show(ex.getError().getErrorCode(), ex.getError().getDescription(), Notification.Type.ERROR_MESSAGE);
         }
     }
 }
